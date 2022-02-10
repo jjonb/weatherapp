@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 
 const CurrentWeather = ({ current }) => {
@@ -18,20 +18,35 @@ const CurrentWeather = ({ current }) => {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "red", fontSize: 20 }}>Current:</Text>
-      <View style={{ borderWidth: 1, alignItems: "center" }}>
+      <Text style={{ color: "red", fontSize: 20 }}>Current</Text>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#87ceeb",
+          width: 200,
+          borderRadius: 25,
+          height: 150,
+        }}
+      >
         <Image
           style={{ width: 50, height: 50 }}
           source={{
             uri: getIcon(current.weather[0].icon),
           }}
         />
-        <Text>Time: {convertTime(current.dt)} PST</Text>
-        <Text>Temperature: {current.temp} F</Text>
-        <Text>Description: {current.weather[0].description}</Text>
+        <Text style={styles.text}>Time: {convertTime(current.dt)} PST</Text>
+        <Text style={styles.text}>Temperature: {current.temp} F</Text>
+        <Text style={styles.text}>
+          Description: {current.weather[0].description}
+        </Text>
       </View>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  text: {
+    color: "#F9F1F0",
+  },
+});
 export default CurrentWeather;

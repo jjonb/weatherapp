@@ -1,4 +1,11 @@
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import React, { useState } from "react";
 import Collapsible from "react-native-collapsible";
 
@@ -21,7 +28,7 @@ const HourlyWeather = ({ hourly }) => {
   return (
     <View style={{ alignItems: "center" }}>
       <TouchableOpacity onPress={toggleExpanded}>
-        <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast:</Text>
+        <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast</Text>
       </TouchableOpacity>
       <Collapsible collapsed={collapsed} align="center">
         <FlatList
@@ -30,10 +37,13 @@ const HourlyWeather = ({ hourly }) => {
           renderItem={({ item }) => (
             <View
               style={{
-                justifyContent: "center",
                 alignItems: "center",
-                borderWidth: 1,
-                marginBottom: 5,
+                justifyContent: "center",
+                backgroundColor: "#87ceeb",
+                width: 200,
+                borderRadius: 25,
+                height: 150,
+                marginBottom: 10,
               }}
             >
               <Image
@@ -42,10 +52,11 @@ const HourlyWeather = ({ hourly }) => {
                   uri: getIcon(item.weather[0].icon),
                 }}
               />
-              <Text></Text>
-              <Text>Time: {convertTime(item.dt)} PST</Text>
-              <Text>Temperature: {item.temp} F</Text>
-              <Text>Description: {item.weather[0].description}</Text>
+              <Text style={styles.text}>Time: {convertTime(item.dt)} PST</Text>
+              <Text style={styles.text}>Temperature: {item.temp} F</Text>
+              <Text style={styles.text}>
+                Description: {item.weather[0].description}
+              </Text>
             </View>
           )}
         />
@@ -53,5 +64,11 @@ const HourlyWeather = ({ hourly }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    color: "#F9F1F0",
+  },
+});
 
 export default HourlyWeather;
