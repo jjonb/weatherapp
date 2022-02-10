@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-} from "react-native";
-
-const convertTime = (dt) => {
-  var date = new Date(dt * 1000);
-  var hours = date.getHours();
-  var minutes = "0" + date.getMinutes();
-  return hours + ":" + minutes.substr(-2);
-};
+import { ActivityIndicator, View, StyleSheet, Text } from "react-native";
+import CurrentWeather from "./components/CurrentWeather";
+import DailyWeather from "./components/DailyWeather";
+import HourlyWeather from "./components/HourlyWeather";
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -35,8 +25,8 @@ export default function App() {
       );
       const json = await response.json();
       setCurrent(json.current);
-      setHourly(json.hourly);
-      setDaily(json.daily);
+      setHourly(json.hourly.slice(1, 5));
+      setDaily(json.daily.slice(1, 5));
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,19 +41,11 @@ export default function App() {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <View>
-          <Text style={{ color: "blue", fontSize: 20 }}>
-            San Jose Hourly Forecast
-          </Text>
-          <FlatList
-            data={hourly}
-            keyExtractor={({ id }, index) => index}
-            renderItem={({ item }) => (
-              <Text>
-                Time: {convertTime(item.dt)} PST Temperature: {item.temp} F
-              </Text>
-            )}
-          />
+        <View style={{ flex: 1, alignItems: "center", top: 20 }}>
+          <Text>Welcome, User!</Text>
+          <CurrentWeather current={current} />
+          <HourlyWeather hourly={hourly} />
+          <DailyWeather daily={daily} />
         </View>
       )}
     </View>
@@ -73,7 +55,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#d5e1df",
     alignItems: "center",
     justifyContent: "center",
   },
