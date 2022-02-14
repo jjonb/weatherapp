@@ -9,6 +9,9 @@ import {
   Animated,
 } from "react-native";
 
+import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -35,20 +38,23 @@ const Login = (props) => {
     }
   }, [props.userId]);
 
-  let rotateValueHolder = new Animated.Value(0);
+  let rotateValueHolder = useRef(new Animated.Value(0)).curren;
 
   const startImageRotateFunction = () => {
-    rotateValueHolder.setValue(0);
-    Animated.timing(rotateValueHolder, {
-      toValue: 1,
-      duration: 5000,
-      useNativeDriver: false,
-    }).start(() => startImageRotateFunction());
+    Animated.loop(
+      Animated.timing(rotateValueHolder, {
+        toValue: 1,
+        duration: 5000,
+        useNativeDriver: false,
+      })
+    ).start();
   };
+
   const RotateData = rotateValueHolder.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
   });
+
   useEffect(() => {
     startImageRotateFunction();
   }, []);
@@ -80,30 +86,37 @@ const Login = (props) => {
           },
         ]}
       />
-      <TextInput
-        style={{
-          borderWidth: 1.5,
-          borderColor: "orange",
-          borderRadius: 5,
-          backgroundColor: "white",
-          marginBottom: 5,
-        }}
-        placeholder="Email"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        style={{
-          borderWidth: 1.5,
-          borderColor: "orange",
-          borderRadius: 5,
-          backgroundColor: "white",
-          marginBottom: 5,
-        }}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-      />
+      <View style={{ flexDirection: "row" }}>
+        <MaterialIcons name="email" size={23} color="black" />
+        <TextInput
+          style={{
+            borderWidth: 1.5,
+            borderColor: "orange",
+            borderRadius: 5,
+            backgroundColor: "white",
+            marginBottom: 5,
+          }}
+          placeholder="Email"
+          onChangeText={setEmail}
+          value={email}
+        />
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <Entypo name="key" size={20} color="black" />
+        <TextInput
+          style={{
+            borderWidth: 1.5,
+            borderColor: "orange",
+            borderRadius: 5,
+            backgroundColor: "white",
+            marginBottom: 5,
+          }}
+          placeholder="Password"
+          onChangeText={setPassword}
+          secureTextEntry={true}
+          value={password}
+        />
+      </View>
       <TouchableOpacity style={styles.button} onPress={login}>
         <Text
           style={{

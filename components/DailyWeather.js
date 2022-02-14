@@ -34,7 +34,7 @@ const DailyWeather = ({ daily }) => {
     var month = months[a.getMonth()];
     var date = a.getDate();
 
-    var time = date + " " + month + " " + year;
+    var time = month + " " + date + ", " + year;
     return time;
   }
   const [collapsed, setCollapsed] = useState(true);

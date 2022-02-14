@@ -58,7 +58,6 @@ const Home = (props) => {
 
   useEffect(() => {
     if (location !== null) {
-      console.log(location);
       getWeather();
     }
   }, [location]);
