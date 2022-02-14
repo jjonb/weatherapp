@@ -38,7 +38,7 @@ const Login = (props) => {
     }
   }, [props.userId]);
 
-  let rotateValueHolder = useRef(new Animated.Value(0)).curren;
+  let rotateValueHolder = useRef(new Animated.Value(0)).current;
 
   const startImageRotateFunction = () => {
     Animated.loop(
