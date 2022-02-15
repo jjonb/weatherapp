@@ -33,6 +33,7 @@ const HourlyWeather = ({ hourly }) => {
       <Collapsible collapsed={collapsed} align="center">
         <FlatList
           data={hourly}
+          style={{ height: 310 }}
           keyExtractor={({ id }, index) => index}
           renderItem={({ item }) => (
             <View

@@ -50,6 +50,7 @@ const DailyWeather = ({ daily }) => {
       </TouchableOpacity>
       <Collapsible collapsed={collapsed} align="center">
         <FlatList
+          style={{ height: 310 }}
           data={daily}
           keyExtractor={({ id }, index) => index}
           renderItem={({ item }) => (

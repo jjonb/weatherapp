@@ -18,7 +18,7 @@ const CurrentWeather = ({ current }) => {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "red", fontSize: 20 }}>Current</Text>
+      <Text style={{ color: "red", fontSize: 20 }}>Current Weather</Text>
       <View
         style={{
           alignItems: "center",
