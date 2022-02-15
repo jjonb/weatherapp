@@ -68,9 +68,9 @@ const Login = (props) => {
         backgroundColor: "#d5e1df",
       }}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 75, color: "#ff1" }}>
+      <Text style={{ fontWeight: "bold", fontSize: 55, color: "#ff1" }}>
         Weather
-        <Text style={{ fontWeight: "bold", fontSize: 75, color: "orange" }}>
+        <Text style={{ fontWeight: "bold", fontSize: 55, color: "orange" }}>
           Scape
         </Text>
       </Text>
@@ -81,7 +81,7 @@ const Login = (props) => {
           {
             height: 200,
             width: 200,
-            marginBottom: 10,
+            marginBottom: 15,
             transform: [{ rotate: RotateData }],
           },
         ]}
@@ -95,6 +95,8 @@ const Login = (props) => {
             borderRadius: 5,
             backgroundColor: "white",
             marginBottom: 5,
+            width: 150,
+            paddingLeft: 10,
           }}
           placeholder="Email"
           onChangeText={setEmail}
@@ -110,6 +112,8 @@ const Login = (props) => {
             borderRadius: 5,
             backgroundColor: "white",
             marginBottom: 5,
+            width: 150,
+            paddingLeft: 10,
           }}
           placeholder="Password"
           onChangeText={setPassword}

@@ -64,8 +64,13 @@ const Home = (props) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color="#0000ff" />
       ) : (
+        // <View
+        //   style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        // >
+        //   <Text>Loading</Text>
+        // </View>
         <View style={{ flex: 1, alignItems: "center", top: 20 }}>
           <Text>Welcome, User!</Text>
           <CurrentWeather current={current} />
