@@ -23,6 +23,10 @@ const Home = (props) => {
     props.userAuth.signOut();
     props.navigation.navigate("Login");
   };
+
+  const controller = new AbortController();
+  const { signal } = controller;
+
   //API key
   const APIkey = "169d5ed7001d90a1b245882d19adc7b9";
 
@@ -40,7 +44,8 @@ const Home = (props) => {
   const getWeather = async () => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=imperial&exclude=minutely&appid=${APIkey}`
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=imperial&exclude=minutely&appid=${APIkey}`,
+        { signal }
       );
       const json = await response.json();
       setCurrent(json.current);
@@ -58,7 +63,8 @@ const Home = (props) => {
 
   useEffect(() => {
     if (location !== null) {
-      return getWeather();
+      getWeather();
+      return () => controller.abort();
     }
   }, [location]);
   return (
@@ -73,7 +79,7 @@ const Home = (props) => {
         // </View>
         <View style={{ flex: 1, alignItems: "center", top: 50 }}>
           <Text>Welcome, User!</Text>
-          <CurrentWeather current={current} />
+          <CurrentWeather navigation={props.navigation} current={current} />
           <HourlyWeather hourly={hourly} />
           <DailyWeather daily={daily} />
           <TouchableOpacity style={styles.button} onPress={signOut}>
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 5,
+    marginTop: 10,
     borderRadius: 10,
   },
 });

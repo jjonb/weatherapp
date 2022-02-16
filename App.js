@@ -5,6 +5,8 @@ import "./firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
+import Weather from "./Pages/Weather";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -33,6 +35,11 @@ export default function App() {
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) => (
             <Home {...props} userAuth={userAuth} userId={userId}></Home>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Weather" options={{ headerShown: false }}>
+          {(props) => (
+            <Weather {...props} userAuth={userAuth} userId={userId}></Weather>
           )}
         </Stack.Screen>
       </Stack.Navigator>

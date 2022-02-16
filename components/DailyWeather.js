@@ -8,7 +8,6 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-import Collapsible from "react-native-collapsible";
 import Carousel from "react-native-snap-carousel";
 const window = Dimensions.get("window");
 
@@ -51,17 +50,19 @@ const DailyWeather = ({ daily }) => {
     var time = month + " " + date + ", " + year;
     return time;
   }
-  const [collapsed, setCollapsed] = useState(true);
-  const toggleExpanded = () => {
-    //Toggling the state of single Collapsible
-    setCollapsed(!collapsed);
+
+  const Circle = (props) => {
+    return (
+      <View>
+        <Text style={{ color: props.color }}>●</Text>
+      </View>
+    );
   };
 
   return (
     <View style={{ alignItems: "center" }}>
-      <TouchableOpacity onPress={toggleExpanded}>
-        <Text style={{ color: "blue", fontSize: 20 }}>Daily Forecast</Text>
-      </TouchableOpacity>
+      <Text style={{ color: "blue", fontSize: 20 }}>Daily Forecast</Text>
+
       <View style={{ width: dimensions.width, alignItems: "center" }}>
         <Carousel
           data={daily}
@@ -70,8 +71,9 @@ const DailyWeather = ({ daily }) => {
           itemWidth={200}
           ref={isCarousel}
           onSnapToItem={(index) => setIndex(index)}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View
+              key={index}
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -79,7 +81,6 @@ const DailyWeather = ({ daily }) => {
                 width: 200,
                 borderRadius: 25,
                 height: 150,
-                marginBottom: 10,
               }}
             >
               <Image
@@ -96,6 +97,15 @@ const DailyWeather = ({ daily }) => {
             </View>
           )}
         />
+      </View>
+      <View style={{ position: "absolute", flexDirection: "row", bottom: 0 }}>
+        {daily.map((data, i) =>
+          i === index ? (
+            <Circle color={"black"} key={i} />
+          ) : (
+            <Circle color={"grey"} key={i} />
+          )
+        )}
       </View>
       {index !== 0 ? (
         <View style={{ position: "absolute", left: 40, top: 70 }}>

@@ -34,7 +34,13 @@ const HourlyWeather = ({ hourly }) => {
     });
     return () => subscription?.remove();
   });
-
+  const Circle = (props) => {
+    return (
+      <View>
+        <Text style={{ color: props.color }}>●</Text>
+      </View>
+    );
+  };
   return (
     <View style={{ alignItems: "center" }}>
       <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast</Text>
@@ -53,8 +59,9 @@ const HourlyWeather = ({ hourly }) => {
           itemWidth={200}
           ref={isCarousel}
           onSnapToItem={(index) => setIndex(index)}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View
+              key={index}
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -80,7 +87,15 @@ const HourlyWeather = ({ hourly }) => {
           )}
         />
       </View>
-
+      <View style={{ position: "absolute", flexDirection: "row", bottom: 0 }}>
+        {hourly.map((data, i) =>
+          i === index ? (
+            <Circle color={"black"} key={i} />
+          ) : (
+            <Circle color={"grey"} key={i} />
+          )
+        )}
+      </View>
       {index !== 0 ? (
         <View style={{ position: "absolute", left: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
