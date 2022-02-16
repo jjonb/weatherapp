@@ -5,11 +5,25 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Collapsible from "react-native-collapsible";
+import Carousel from "react-native-snap-carousel";
+const window = Dimensions.get("window");
 
 const DailyWeather = ({ daily }) => {
+  const [dimensions, setDimensions] = useState(window);
+  const isCarousel = useRef(null);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener("change", (dim) => {
+      setDimensions(dim.window);
+      //console.log(window.window.width);
+    });
+    return () => subscription?.remove();
+  });
   const getIcon = (itemId) => {
     return `http://openweathermap.org/img/wn/${itemId}@2x.png`;
   };
@@ -48,11 +62,14 @@ const DailyWeather = ({ daily }) => {
       <TouchableOpacity onPress={toggleExpanded}>
         <Text style={{ color: "blue", fontSize: 20 }}>Daily Forecast</Text>
       </TouchableOpacity>
-      <Collapsible collapsed={collapsed} align="center">
-        <FlatList
-          style={{ height: 310 }}
+      <View style={{ width: dimensions.width, alignItems: "center" }}>
+        <Carousel
           data={daily}
-          keyExtractor={({ id }, index) => index}
+          sliderWidth={dimensions.width}
+          style={{ alignItems: "center", justifyContent: "center" }}
+          itemWidth={200}
+          ref={isCarousel}
+          onSnapToItem={(index) => setIndex(index)}
           renderItem={({ item }) => (
             <View
               style={{
@@ -79,7 +96,21 @@ const DailyWeather = ({ daily }) => {
             </View>
           )}
         />
-      </Collapsible>
+      </View>
+      {index !== 0 ? (
+        <View style={{ position: "absolute", left: 40, top: 70 }}>
+          <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
+            <Text style={{ fontSize: 50, color: "red" }}>◀</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {index !== daily.length - 1 ? (
+        <View style={{ position: "absolute", right: 40, top: 70 }}>
+          <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
+            <Text style={{ fontSize: 50, color: "red" }}>▶</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 };

@@ -7,12 +7,15 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Carousel from "react-native-snap-carousel";
 
 const window = Dimensions.get("window");
 
 const HourlyWeather = ({ hourly }) => {
+  const isCarousel = useRef(null);
+  const [index, setIndex] = useState(0);
+
   const [dimensions, setDimensions] = useState(window);
 
   const getIcon = (itemId) => {
@@ -24,31 +27,32 @@ const HourlyWeather = ({ hourly }) => {
     var minutes = "0" + date.getMinutes();
     return hours + ":" + minutes.substr(-2);
   };
-  const [collapsed, setCollapsed] = useState(true);
-  const toggleExpanded = () => {
-    //Toggling the state of single Collapsible
-    setCollapsed(!collapsed);
-  };
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", (dim) => {
       setDimensions(dim.window);
-      //console.log(window.window.width);
     });
     return () => subscription?.remove();
   });
 
   return (
     <View style={{ alignItems: "center" }}>
-      <TouchableOpacity onPress={toggleExpanded}>
-        <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast</Text>
-      </TouchableOpacity>
-      <View style={{ width: dimensions.width, padding: 10 }}>
+      <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast</Text>
+
+      <View
+        style={{
+          position: "relative",
+          width: dimensions.width,
+          alignItems: "center",
+        }}
+      >
         <Carousel
           data={hourly}
-          horizontal={true}
-          layout={"default"}
-          keyExtractor={(id, index) => index}
+          sliderWidth={dimensions.width}
+          style={{ alignItems: "center", justifyContent: "center" }}
+          itemWidth={200}
+          ref={isCarousel}
+          onSnapToItem={(index) => setIndex(index)}
           renderItem={({ item }) => (
             <View
               style={{
@@ -58,7 +62,6 @@ const HourlyWeather = ({ hourly }) => {
                 width: 200,
                 borderRadius: 25,
                 height: 150,
-                marginBottom: 10,
                 marginRight: 10,
               }}
             >
@@ -77,6 +80,21 @@ const HourlyWeather = ({ hourly }) => {
           )}
         />
       </View>
+
+      {index !== 0 ? (
+        <View style={{ position: "absolute", left: 40, top: 70 }}>
+          <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
+            <Text style={{ fontSize: 50, color: "red" }}>◀</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {index !== hourly.length - 1 ? (
+        <View style={{ position: "absolute", right: 40, top: 70 }}>
+          <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
+            <Text style={{ fontSize: 50, color: "red" }}>▶</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 };

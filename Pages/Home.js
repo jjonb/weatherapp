@@ -53,12 +53,12 @@ const Home = (props) => {
     }
   };
   useEffect(() => {
-    getLocation();
+    return getLocation();
   }, []);
 
   useEffect(() => {
     if (location !== null) {
-      getWeather();
+      return getWeather();
     }
   }, [location]);
   return (
@@ -71,7 +71,7 @@ const Home = (props) => {
         // >
         //   <Text>Loading</Text>
         // </View>
-        <View style={{ flex: 1, alignItems: "center", top: 20 }}>
+        <View style={{ flex: 1, alignItems: "center", top: 50 }}>
           <Text>Welcome, User!</Text>
           <CurrentWeather current={current} />
           <HourlyWeather hourly={hourly} />
