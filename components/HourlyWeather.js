@@ -5,11 +5,16 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from "react-native";
-import React, { useState } from "react";
-import Collapsible from "react-native-collapsible";
+import React, { useState, useEffect } from "react";
+import Carousel from "react-native-snap-carousel";
+
+const window = Dimensions.get("window");
 
 const HourlyWeather = ({ hourly }) => {
+  const [dimensions, setDimensions] = useState(window);
+
   const getIcon = (itemId) => {
     return `http://openweathermap.org/img/wn/${itemId}@2x.png`;
   };
@@ -25,16 +30,25 @@ const HourlyWeather = ({ hourly }) => {
     setCollapsed(!collapsed);
   };
 
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener("change", (dim) => {
+      setDimensions(dim.window);
+      //console.log(window.window.width);
+    });
+    return () => subscription?.remove();
+  });
+
   return (
     <View style={{ alignItems: "center" }}>
       <TouchableOpacity onPress={toggleExpanded}>
         <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast</Text>
       </TouchableOpacity>
-      <Collapsible collapsed={collapsed} align="center">
-        <FlatList
+      <View style={{ width: dimensions.width, padding: 10 }}>
+        <Carousel
           data={hourly}
-          style={{ height: 310 }}
-          keyExtractor={({ id }, index) => index}
+          horizontal={true}
+          layout={"default"}
+          keyExtractor={(id, index) => index}
           renderItem={({ item }) => (
             <View
               style={{
@@ -45,6 +59,7 @@ const HourlyWeather = ({ hourly }) => {
                 borderRadius: 25,
                 height: 150,
                 marginBottom: 10,
+                marginRight: 10,
               }}
             >
               <Image
@@ -61,7 +76,7 @@ const HourlyWeather = ({ hourly }) => {
             </View>
           )}
         />
-      </Collapsible>
+      </View>
     </View>
   );
 };
