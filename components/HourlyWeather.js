@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  FlatList,
+  Pressable,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -12,7 +12,7 @@ import Carousel from "react-native-snap-carousel";
 
 const window = Dimensions.get("window");
 
-const HourlyWeather = ({ hourly }) => {
+const HourlyWeather = (props) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
 
@@ -53,15 +53,20 @@ const HourlyWeather = ({ hourly }) => {
         }}
       >
         <Carousel
-          data={hourly}
+          data={props.hourly}
           sliderWidth={dimensions.width}
           style={{ alignItems: "center", justifyContent: "center" }}
           itemWidth={200}
           ref={isCarousel}
           onSnapToItem={(index) => setIndex(index)}
           renderItem={({ item, index }) => (
-            <View
+            <Pressable
               key={index}
+              onPress={() =>
+                props.navigation.navigate("Weather", {
+                  weather: item,
+                })
+              }
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -83,12 +88,12 @@ const HourlyWeather = ({ hourly }) => {
               <Text style={styles.text}>
                 Description: {item.weather[0].description}
               </Text>
-            </View>
+            </Pressable>
           )}
         />
       </View>
       <View style={{ position: "absolute", flexDirection: "row", bottom: 0 }}>
-        {hourly.map((data, i) =>
+        {props.hourly.map((data, i) =>
           i === index ? (
             <Circle color={"black"} key={i} />
           ) : (
@@ -103,7 +108,7 @@ const HourlyWeather = ({ hourly }) => {
           </TouchableOpacity>
         </View>
       ) : null}
-      {index !== hourly.length - 1 ? (
+      {index !== props.hourly.length - 1 ? (
         <View style={{ position: "absolute", right: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
             <Text style={{ fontSize: 50, color: "red" }}>▶</Text>

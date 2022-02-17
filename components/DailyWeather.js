@@ -11,7 +11,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Carousel from "react-native-snap-carousel";
 const window = Dimensions.get("window");
 
-const DailyWeather = ({ daily }) => {
+const DailyWeather = (props) => {
   const [dimensions, setDimensions] = useState(window);
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
@@ -65,7 +65,7 @@ const DailyWeather = ({ daily }) => {
 
       <View style={{ width: dimensions.width, alignItems: "center" }}>
         <Carousel
-          data={daily}
+          data={props.daily}
           sliderWidth={dimensions.width}
           style={{ alignItems: "center", justifyContent: "center" }}
           itemWidth={200}
@@ -99,7 +99,7 @@ const DailyWeather = ({ daily }) => {
         />
       </View>
       <View style={{ position: "absolute", flexDirection: "row", bottom: 0 }}>
-        {daily.map((data, i) =>
+        {props.daily.map((data, i) =>
           i === index ? (
             <Circle color={"black"} key={i} />
           ) : (
@@ -114,7 +114,7 @@ const DailyWeather = ({ daily }) => {
           </TouchableOpacity>
         </View>
       ) : null}
-      {index !== daily.length - 1 ? (
+      {index !== props.daily.length - 1 ? (
         <View style={{ position: "absolute", right: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
             <Text style={{ fontSize: 50, color: "red" }}>▶</Text>

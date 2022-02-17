@@ -80,8 +80,8 @@ const Home = (props) => {
         <View style={{ flex: 1, alignItems: "center", top: 50 }}>
           <Text>Welcome, User!</Text>
           <CurrentWeather navigation={props.navigation} current={current} />
-          <HourlyWeather hourly={hourly} />
-          <DailyWeather daily={daily} />
+          <HourlyWeather navigation={props.navigation} hourly={hourly} />
+          <DailyWeather navigation={props.navigation} daily={daily} />
           <TouchableOpacity style={styles.button} onPress={signOut}>
             <Text style={{ color: "white" }}>Sign Out</Text>
           </TouchableOpacity>
