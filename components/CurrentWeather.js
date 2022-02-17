@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const CurrentWeather = (props) => {
   const getIcon = (itemId) => {
@@ -11,13 +11,14 @@ const CurrentWeather = (props) => {
     var minutes = "0" + date.getMinutes();
     return hours + ":" + minutes.substr(-2);
   };
-
   return (
     <Pressable
       style={{
         alignItems: "center",
       }}
-      onPress={() => props.navigation.navigate("Weather")}
+      onPress={() =>
+        props.navigation.navigate("Weather", { weather: props.current })
+      }
     >
       <Text style={{ color: "red", fontSize: 20 }}>Current Weather</Text>
       <View
