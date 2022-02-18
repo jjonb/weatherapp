@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import { SearchBar } from "react-native-elements";
+
 import CurrentWeather from "../components/CurrentWeather";
 import DailyWeather from "../components/DailyWeather";
 import HourlyWeather from "../components/HourlyWeather";
@@ -19,6 +21,7 @@ const Home = (props) => {
   const [hourly, setHourly] = useState([]);
   const [daily, setDaily] = useState([]);
   const [location, setLocation] = useState(null);
+  const [search, setSearch] = useState("");
 
   const [errorMsg, setErrorMsg] = useState(null);
   const signOut = () => {
@@ -69,6 +72,7 @@ const Home = (props) => {
       return () => controller.abort();
     }
   }, [location]);
+
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -82,15 +86,38 @@ const Home = (props) => {
         <View style={{ flex: 1 }}>
           <ImageBackground
             source={getBackground(current.weather[0].icon)}
+            //source={getBackground("d")}
             resizeMode="cover"
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
             <Text
-              style={{ color: "#F19B4D", fontSize: 20, fontWeight: "bold" }}
+              style={{
+                color: "yellow",
+                fontSize: 20,
+                fontWeight: "bold",
+                marginBottom: 10,
+              }}
             >
               Welcome, User!
             </Text>
+
             <CurrentWeather navigation={props.navigation} current={current} />
+            <SearchBar
+              containerStyle={{
+                width: 80 + "%",
+                padding: 0,
+                marginTop: 10,
+                marginBottom: 10,
+                borderBottomColor: "transparent",
+                borderTopColor: "transparent",
+                backgroundColor: "transparent",
+              }}
+              placeholder={"Look for another City"}
+              onChangeText={setSearch}
+              value={search}
+              round={true}
+              lightTheme={true}
+            />
             <HourlyWeather navigation={props.navigation} hourly={hourly} />
             <DailyWeather navigation={props.navigation} daily={daily} />
             <TouchableOpacity style={styles.button} onPress={signOut}>

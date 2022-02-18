@@ -65,8 +65,38 @@ const DailyWeather = (props) => {
   return (
     <View style={{ alignItems: "center" }}>
       <Text style={{ color: "white", fontSize: 20 }}>🗓️ Daily Forecast</Text>
-
-      <View style={{ width: dimensions.width, alignItems: "center" }}>
+      <View style={{ flexDirection: "row" }}>
+        {props.daily.map((item, index) => {
+          return (
+            <Pressable
+              key={index}
+              onPress={() => {
+                props.navigation.navigate("Weather", {
+                  weather: item,
+                  dailyWeather: true,
+                });
+              }}
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: dimensions.width / 4,
+                borderRightWidth: index !== props.daily.length - 1 ? 1 : 0,
+                borderColor: "white",
+                height: 125,
+              }}
+            >
+              <Image
+                style={{ width: 50, height: 50 }}
+                source={convertImages(item.weather[0].icon)}
+              />
+              <Text style={styles.text}>{convertTime(item.dt)}</Text>
+              <Text style={styles.text}>{Math.round(item.temp.day)}° F</Text>
+              <Text style={styles.text}>{item.weather[0].description}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      {/* <View style={{ width: dimensions.width, alignItems: "center" }}>
         <Carousel
           data={props.daily}
           sliderWidth={dimensions.width}
@@ -127,7 +157,7 @@ const DailyWeather = (props) => {
             <AntDesign name="rightcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
-      ) : null}
+      ) : null} */}
     </View>
   );
 };

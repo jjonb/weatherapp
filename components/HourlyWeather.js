@@ -83,11 +83,9 @@ const HourlyWeather = (props) => {
                 style={{ width: 50, height: 50 }}
                 source={convertImages(item.weather[0].icon)}
               />
-              <Text style={styles.text}>Time: {convertTime(item.dt)} PST</Text>
-              <Text style={styles.text}>Temperature: {item.temp} F</Text>
-              <Text style={styles.text}>
-                Description: {item.weather[0].description}
-              </Text>
+              <Text style={styles.text}>⏳ {convertTime(item.dt)} PST</Text>
+              <Text style={styles.text}>🌡 {Math.round(item.temp)}° F</Text>
+              <Text style={styles.text}>✏️ {item.weather[0].description}</Text>
             </Pressable>
           )}
         />
@@ -95,9 +93,9 @@ const HourlyWeather = (props) => {
       <View style={{ position: "absolute", flexDirection: "row", bottom: 0 }}>
         {props.hourly.map((data, i) =>
           i === index ? (
-            <Circle color={"black"} key={i} />
+            <Circle color={"#4da3f1"} key={i} />
           ) : (
-            <Circle color={"grey"} key={i} />
+            <Circle color={"white"} key={i} />
           )
         )}
       </View>

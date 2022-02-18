@@ -25,8 +25,11 @@ const CurrentWeather = (props) => {
         style={{
           alignItems: "center",
           justifyContent: "center",
-          width: 350,
-          borderRadius: 25,
+          width: 275,
+          borderWidth: 2,
+          borderColor: "yellow",
+          paddingBottom: 20,
+          borderRadius: 137.5,
           height: 275,
         }}
       >
@@ -34,9 +37,11 @@ const CurrentWeather = (props) => {
           style={{ width: 200, height: 200 }}
           source={convertImages(props.current.weather[0].icon)}
         />
-        <Text style={styles.text}>{convertTime(props.current.dt)} PST</Text>
-        <Text style={styles.text}>{Math.round(props.current.temp)}° F</Text>
-        <Text style={styles.text}>{props.current.weather[0].description}</Text>
+        <Text style={styles.text}>⏳ {convertTime(props.current.dt)} PST</Text>
+        <Text style={styles.text}>🌡 {Math.round(props.current.temp)}° F</Text>
+        <Text style={styles.text}>
+          ✏️ {props.current.weather[0].description}
+        </Text>
       </View>
     </Pressable>
   );
@@ -44,7 +49,7 @@ const CurrentWeather = (props) => {
 const styles = StyleSheet.create({
   text: {
     color: "#F19B4D",
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "bold",
   },
 });
