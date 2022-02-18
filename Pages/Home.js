@@ -86,7 +86,7 @@ const Home = (props) => {
         <View style={{ flex: 1 }}>
           <ImageBackground
             source={getBackground(current.weather[0].icon)}
-            //source={getBackground("d")}
+            //source={getBackground("n")}
             resizeMode="cover"
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
