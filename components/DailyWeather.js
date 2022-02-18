@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import Carousel from "react-native-snap-carousel";
+import convertImages from "../functions/convertImages";
+import { AntDesign } from "@expo/vector-icons";
+
 const window = Dimensions.get("window");
 
 const DailyWeather = (props) => {
@@ -61,7 +64,7 @@ const DailyWeather = (props) => {
 
   return (
     <View style={{ alignItems: "center" }}>
-      <Text style={{ color: "blue", fontSize: 20 }}>Daily Forecast</Text>
+      <Text style={{ color: "white", fontSize: 20 }}>Daily Forecast</Text>
 
       <View style={{ width: dimensions.width, alignItems: "center" }}>
         <Carousel
@@ -91,9 +94,7 @@ const DailyWeather = (props) => {
             >
               <Image
                 style={{ width: 50, height: 50 }}
-                source={{
-                  uri: getIcon(item.weather[0].icon),
-                }}
+                source={convertImages(item.weather[0].icon)}
               />
               <Text style={styles.text}>{convertTime(item.dt)}</Text>
               <Text style={styles.text}>Temperature: {item.temp.day} F</Text>
@@ -116,14 +117,14 @@ const DailyWeather = (props) => {
       {index !== 0 ? (
         <View style={{ position: "absolute", left: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
-            <Text style={{ fontSize: 50, color: "red" }}>◀</Text>
+            <AntDesign name="leftcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : null}
       {index !== props.daily.length - 1 ? (
         <View style={{ position: "absolute", right: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
-            <Text style={{ fontSize: 50, color: "red" }}>▶</Text>
+            <AntDesign name="rightcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : null}

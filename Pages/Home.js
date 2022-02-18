@@ -5,10 +5,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import CurrentWeather from "../components/CurrentWeather";
 import DailyWeather from "../components/DailyWeather";
 import HourlyWeather from "../components/HourlyWeather";
+import getBackground from "../functions/getBackground";
 import * as Location from "expo-location";
 
 const Home = (props) => {
@@ -77,14 +79,20 @@ const Home = (props) => {
         // >
         //   <Text>Loading</Text>
         // </View>
-        <View style={{ flex: 1, alignItems: "center", top: 50 }}>
-          <Text>Welcome, User!</Text>
-          <CurrentWeather navigation={props.navigation} current={current} />
-          <HourlyWeather navigation={props.navigation} hourly={hourly} />
-          <DailyWeather navigation={props.navigation} daily={daily} />
-          <TouchableOpacity style={styles.button} onPress={signOut}>
-            <Text style={{ color: "white" }}>Sign Out</Text>
-          </TouchableOpacity>
+        <View style={{ flex: 1 }}>
+          <ImageBackground
+            source={getBackground(current.weather[0].icon)}
+            resizeMode="cover"
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={{ color: "white" }}>Welcome, User!</Text>
+            <CurrentWeather navigation={props.navigation} current={current} />
+            <HourlyWeather navigation={props.navigation} hourly={hourly} />
+            <DailyWeather navigation={props.navigation} daily={daily} />
+            <TouchableOpacity style={styles.button} onPress={signOut}>
+              <Text style={{ color: "white" }}>Sign Out</Text>
+            </TouchableOpacity>
+          </ImageBackground>
         </View>
       )}
     </View>
@@ -93,9 +101,6 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#d5e1df",
-    alignItems: "center",
-    justifyContent: "center",
   },
   button: {
     width: 75,

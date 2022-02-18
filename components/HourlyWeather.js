@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import Carousel from "react-native-snap-carousel";
+import convertImages from "../functions/convertImages";
+import { AntDesign } from "@expo/vector-icons";
 
 const window = Dimensions.get("window");
 
@@ -43,7 +45,7 @@ const HourlyWeather = (props) => {
   };
   return (
     <View style={{ alignItems: "center" }}>
-      <Text style={{ color: "blue", fontSize: 20 }}>Hourly Forecast</Text>
+      <Text style={{ color: "white", fontSize: 20 }}>Hourly Forecast</Text>
 
       <View
         style={{
@@ -79,9 +81,7 @@ const HourlyWeather = (props) => {
             >
               <Image
                 style={{ width: 50, height: 50 }}
-                source={{
-                  uri: getIcon(item.weather[0].icon),
-                }}
+                source={convertImages(item.weather[0].icon)}
               />
               <Text style={styles.text}>Time: {convertTime(item.dt)} PST</Text>
               <Text style={styles.text}>Temperature: {item.temp} F</Text>
@@ -104,14 +104,14 @@ const HourlyWeather = (props) => {
       {index !== 0 ? (
         <View style={{ position: "absolute", left: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
-            <Text style={{ fontSize: 50, color: "red" }}>◀</Text>
+            <AntDesign name="leftcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : null}
       {index !== props.hourly.length - 1 ? (
         <View style={{ position: "absolute", right: 40, top: 70 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
-            <Text style={{ fontSize: 50, color: "red" }}>▶</Text>
+            <AntDesign name="rightcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : null}

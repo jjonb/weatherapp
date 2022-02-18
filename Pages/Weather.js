@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-
+import convertImages from "../functions/convertImages";
 const Weather = ({ navigation, route }) => {
   const getIcon = (itemId) => {
     return `http://openweathermap.org/img/wn/${itemId}@2x.png`;
@@ -50,9 +50,7 @@ const Weather = ({ navigation, route }) => {
       >
         <Image
           style={{ width: 200, height: 200 }}
-          source={{
-            uri: getIcon(weather.weather[0].icon),
-          }}
+          source={convertImages(weather.weather[0].icon)}
         />
 
         {route.params.dailyWeather ? (
