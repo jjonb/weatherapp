@@ -85,7 +85,11 @@ const Home = (props) => {
             resizeMode="cover"
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
-            <Text style={{ color: "white" }}>Welcome, User!</Text>
+            <Text
+              style={{ color: "#F19B4D", fontSize: 20, fontWeight: "bold" }}
+            >
+              Welcome, User!
+            </Text>
             <CurrentWeather navigation={props.navigation} current={current} />
             <HourlyWeather navigation={props.navigation} hourly={hourly} />
             <DailyWeather navigation={props.navigation} daily={daily} />
@@ -101,6 +105,8 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     width: 75,

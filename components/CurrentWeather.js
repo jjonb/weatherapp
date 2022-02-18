@@ -35,7 +35,7 @@ const CurrentWeather = (props) => {
           source={convertImages(props.current.weather[0].icon)}
         />
         <Text style={styles.text}>{convertTime(props.current.dt)} PST</Text>
-        <Text style={styles.text}>{props.current.temp} F</Text>
+        <Text style={styles.text}>{Math.round(props.current.temp)}° F</Text>
         <Text style={styles.text}>{props.current.weather[0].description}</Text>
       </View>
     </Pressable>
@@ -43,7 +43,9 @@ const CurrentWeather = (props) => {
 };
 const styles = StyleSheet.create({
   text: {
-    color: "#F9F1F0",
+    color: "#F19B4D",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
 export default CurrentWeather;

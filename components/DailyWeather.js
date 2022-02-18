@@ -64,7 +64,7 @@ const DailyWeather = (props) => {
 
   return (
     <View style={{ alignItems: "center" }}>
-      <Text style={{ color: "white", fontSize: 20 }}>Daily Forecast</Text>
+      <Text style={{ color: "white", fontSize: 20 }}>🗓️ Daily Forecast</Text>
 
       <View style={{ width: dimensions.width, alignItems: "center" }}>
         <Carousel
@@ -86,7 +86,7 @@ const DailyWeather = (props) => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "#87ceeb",
+                backgroundColor: "#6fb2e7",
                 width: 200,
                 borderRadius: 25,
                 height: 150,
@@ -115,14 +115,14 @@ const DailyWeather = (props) => {
         )}
       </View>
       {index !== 0 ? (
-        <View style={{ position: "absolute", left: 40, top: 70 }}>
+        <View style={{ position: "absolute", left: 40, top: 75 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
             <AntDesign name="leftcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : null}
       {index !== props.daily.length - 1 ? (
-        <View style={{ position: "absolute", right: 40, top: 70 }}>
+        <View style={{ position: "absolute", right: 40, top: 75 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
             <AntDesign name="rightcircle" size={24} color="white" />
           </TouchableOpacity>

@@ -45,7 +45,7 @@ const HourlyWeather = (props) => {
   };
   return (
     <View style={{ alignItems: "center" }}>
-      <Text style={{ color: "white", fontSize: 20 }}>Hourly Forecast</Text>
+      <Text style={{ color: "white", fontSize: 20 }}>⏰ Hourly Forecast</Text>
 
       <View
         style={{
@@ -72,7 +72,7 @@ const HourlyWeather = (props) => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "#87ceeb",
+                backgroundColor: "#0a273d",
                 width: 200,
                 borderRadius: 25,
                 height: 150,
@@ -102,14 +102,14 @@ const HourlyWeather = (props) => {
         )}
       </View>
       {index !== 0 ? (
-        <View style={{ position: "absolute", left: 40, top: 70 }}>
+        <View style={{ position: "absolute", left: 40, top: 75 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToPrev()}>
             <AntDesign name="leftcircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ) : null}
       {index !== props.hourly.length - 1 ? (
-        <View style={{ position: "absolute", right: 40, top: 70 }}>
+        <View style={{ position: "absolute", right: 40, top: 75 }}>
           <TouchableOpacity onPress={() => isCarousel.current.snapToNext()}>
             <AntDesign name="rightcircle" size={24} color="white" />
           </TouchableOpacity>
