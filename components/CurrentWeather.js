@@ -1,7 +1,9 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
+import convertImages from "../functions/convertImages.js";
 
 const CurrentWeather = (props) => {
+  console.log(convertImages(props.current.weather[0].icon));
   const getIcon = (itemId) => {
     return `http://openweathermap.org/img/wn/${itemId}@2x.png`;
   };
@@ -26,16 +28,14 @@ const CurrentWeather = (props) => {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#87ceeb",
-          width: 200,
+          width: 350,
           borderRadius: 25,
-          height: 150,
+          height: 275,
         }}
       >
         <Image
-          style={{ width: 50, height: 50 }}
-          source={{
-            uri: getIcon(props.current.weather[0].icon),
-          }}
+          style={{ width: 200, height: 200 }}
+          source={convertImages(props.current.weather[0].icon)}
         />
         <Text style={styles.text}>
           Time: {convertTime(props.current.dt)} PST

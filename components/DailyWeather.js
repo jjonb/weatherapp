@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  FlatList,
+  Pressable,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -72,8 +72,14 @@ const DailyWeather = (props) => {
           ref={isCarousel}
           onSnapToItem={(index) => setIndex(index)}
           renderItem={({ item, index }) => (
-            <View
+            <Pressable
               key={index}
+              onPress={() => {
+                props.navigation.navigate("Weather", {
+                  weather: item,
+                  dailyWeather: true,
+                });
+              }}
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -94,7 +100,7 @@ const DailyWeather = (props) => {
               <Text style={styles.text}>
                 Description: {item.weather[0].description}
               </Text>
-            </View>
+            </Pressable>
           )}
         />
       </View>
