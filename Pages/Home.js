@@ -78,10 +78,31 @@ const Home = (props) => {
   useEffect(() => {
     if (location !== null) {
       getWeather();
+      setSearch("");
       return () => controller.abort();
     }
   }, [location]);
-  console.log(city);
+
+  const searchFun = async () => {
+    if (search === "") {
+      return;
+    }
+    setLoading(true);
+    const searchTerm = search.split(" ").join("+");
+    try {
+      const response3 = await fetch(
+        `http://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=5&appid=${APIkey}`,
+        { signal }
+      );
+      const json3 = await response3.json();
+
+      setLocation({
+        coords: { longitude: json3[0].lon, latitude: json3[0].lat },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -104,7 +125,6 @@ const Home = (props) => {
                 color: "yellow",
                 fontSize: 20,
                 fontWeight: "bold",
-                marginBottom: 10,
               }}
             >
               Welcome, User!
@@ -125,13 +145,13 @@ const Home = (props) => {
                 width: 80 + "%",
                 padding: 0,
                 marginTop: 10,
-                marginBottom: 10,
                 borderBottomColor: "transparent",
                 borderTopColor: "transparent",
                 backgroundColor: "transparent",
               }}
               placeholder={"Look for another City"}
               onChangeText={setSearch}
+              onSubmitEditing={() => searchFun()}
               value={search}
               round={true}
               lightTheme={true}

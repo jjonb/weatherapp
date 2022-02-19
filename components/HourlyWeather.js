@@ -73,9 +73,12 @@ const HourlyWeather = (props) => {
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: "#0a273d",
+                borderColor: "yellow",
+                elevation: 2,
+                borderWidth: 1,
                 width: 200,
                 borderRadius: 25,
-                height: 150,
+                height: 140,
                 marginRight: 10,
               }}
             >
