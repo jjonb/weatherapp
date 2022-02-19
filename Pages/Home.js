@@ -22,6 +22,7 @@ const Home = (props) => {
   const [daily, setDaily] = useState([]);
   const [location, setLocation] = useState(null);
   const [search, setSearch] = useState("");
+  const [city, setCity] = useState("");
 
   const [errorMsg, setErrorMsg] = useState(null);
   const signOut = () => {
@@ -52,16 +53,24 @@ const Home = (props) => {
         `https://api.openweathermap.org/data/2.5/onecall?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=imperial&exclude=minutely&appid=${APIkey}`,
         { signal }
       );
+      const response2 = await fetch(
+        `http://api.openweathermap.org/geo/1.0/reverse?lat=${location.coords.latitude}&lon=${location.coords.longitude}&limit=5&appid=${APIkey}`,
+        { signal }
+      );
       const json = await response.json();
+      const json2 = await response2.json();
+
       setCurrent(json.current);
       setHourly(json.hourly.slice(1, 5));
       setDaily(json.daily.slice(1, 5));
+      setCity(json2[0].name + ", " + json2[0].state);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     return getLocation();
   }, []);
@@ -72,7 +81,7 @@ const Home = (props) => {
       return () => controller.abort();
     }
   }, [location]);
-
+  console.log(city);
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -100,7 +109,16 @@ const Home = (props) => {
             >
               Welcome, User!
             </Text>
-
+            <Text
+              style={{
+                color: "yellow",
+                fontSize: 20,
+                fontWeight: "bold",
+                marginBottom: 10,
+              }}
+            >
+              {city}
+            </Text>
             <CurrentWeather navigation={props.navigation} current={current} />
             <SearchBar
               containerStyle={{
