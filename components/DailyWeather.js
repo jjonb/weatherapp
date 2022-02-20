@@ -89,7 +89,9 @@ const DailyWeather = (props) => {
                 style={{ width: 50, height: 50 }}
                 source={convertImages(item.weather[0].icon)}
               />
-              <Text style={styles.text}>{convertTime(item.dt)}</Text>
+              <Text style={styles.text}>
+                {convertTime(item.dt + props.offset)}
+              </Text>
               <Text style={styles.text}>{Math.round(item.temp.day)}° F</Text>
               <Text style={styles.text}>{item.weather[0].description}</Text>
             </Pressable>

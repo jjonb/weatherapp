@@ -9,8 +9,22 @@ const CurrentWeather = (props) => {
     var date = new Date(dt * 1000);
     var hours = date.getHours();
     var minutes = "0" + date.getMinutes();
-    return hours + ":" + minutes.substr(-2);
+    if (hours === 0) {
+      return 12 + ":" + minutes.substr(-2) + " AM";
+    }
+    if (hours === 12) {
+      return hours + ":" + minutes.substr(-2) + " PM";
+    }
+    if (hours >= 13) {
+      return hours - 12 + ":" + minutes.substr(-2) + " PM";
+    }
+
+    return hours + ":" + minutes.substr(-2) + " AM";
   };
+
+  console.log(props.offsetCurrent);
+  console.log(props.offsetOrigin);
+  console.log(props.offset);
   return (
     <Pressable
       style={{
@@ -54,7 +68,7 @@ const CurrentWeather = (props) => {
             source={convertImages(props.current.weather[0].icon)}
           />
           <Text style={styles.text}>
-            ⏳ {convertTime(props.current.dt)} PST
+            ⏳ {convertTime(props.current.dt + props.offset)}
           </Text>
           <Text style={styles.text}>🌡 {Math.round(props.current.temp)}° F</Text>
           <Text style={styles.text}>
@@ -67,7 +81,7 @@ const CurrentWeather = (props) => {
 };
 const styles = StyleSheet.create({
   text: {
-    color: "#F19B4D",
+    color: "white",
     fontSize: 17,
     fontWeight: "bold",
   },

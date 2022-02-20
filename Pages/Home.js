@@ -24,6 +24,10 @@ const Home = (props) => {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
 
+  const [offsetOrigin, setOffsetOrigin] = useState(null);
+  const [offsetCurrent, setOffsetCurrent] = useState(null);
+  const [offset, setOffset] = useState(null);
+
   const [errorMsg, setErrorMsg] = useState(null);
   const signOut = () => {
     props.userAuth.signOut();
@@ -59,11 +63,19 @@ const Home = (props) => {
       );
       const json = await response.json();
       const json2 = await response2.json();
-
       setCurrent(json.current);
       setHourly(json.hourly.slice(1, 5));
       setDaily(json.daily.slice(1, 5));
-      setCity(json2[0].name + ", " + json2[0].state);
+      if (offsetOrigin === null) {
+        setOffsetOrigin(json.timezone_offset);
+      }
+      setOffsetCurrent(json.timezone_offset);
+
+      setCity(
+        json2[0].name +
+          ", " +
+          (json2[0].state ? json2[0].state : json2[0].country)
+      );
     } catch (error) {
       console.error(error);
     } finally {
@@ -79,10 +91,18 @@ const Home = (props) => {
     if (location !== null) {
       getWeather();
       setSearch("");
+
       return () => controller.abort();
     }
   }, [location]);
 
+  useEffect(() => {
+    if (offsetCurrent >= offsetOrigin) {
+      setOffset(offsetCurrent - offsetOrigin);
+    } else {
+      setOffset(offsetOrigin - offsetCurrent);
+    }
+  }, [offsetCurrent]);
   const searchFun = async () => {
     if (search === "") {
       return;
@@ -95,7 +115,6 @@ const Home = (props) => {
         { signal }
       );
       const json3 = await response3.json();
-
       setLocation({
         coords: { longitude: json3[0].lon, latitude: json3[0].lat },
       });
@@ -139,7 +158,13 @@ const Home = (props) => {
             >
               {city}
             </Text>
-            <CurrentWeather navigation={props.navigation} current={current} />
+            <CurrentWeather
+              offsetOrigin={offsetOrigin}
+              offsetCurrent={offsetCurrent}
+              offset={offset}
+              navigation={props.navigation}
+              current={current}
+            />
             <SearchBar
               containerStyle={{
                 width: 80 + "%",
@@ -156,8 +181,17 @@ const Home = (props) => {
               round={true}
               lightTheme={true}
             />
-            <HourlyWeather navigation={props.navigation} hourly={hourly} />
-            <DailyWeather navigation={props.navigation} daily={daily} />
+            <HourlyWeather
+              offset={offset}
+              navigation={props.navigation}
+              hourly={hourly}
+              isDay={current.weather[0].icon.includes("d")}
+            />
+            <DailyWeather
+              offset={offset}
+              navigation={props.navigation}
+              daily={daily}
+            />
             <TouchableOpacity style={styles.button} onPress={signOut}>
               <Text style={{ color: "white" }}>Sign Out</Text>
             </TouchableOpacity>

@@ -27,7 +27,17 @@ const HourlyWeather = (props) => {
     var date = new Date(dt * 1000);
     var hours = date.getHours();
     var minutes = "0" + date.getMinutes();
-    return hours + ":" + minutes.substr(-2);
+    if (hours === 0) {
+      return 12 + ":" + minutes.substr(-2) + " AM";
+    }
+    if (hours === 12) {
+      return hours + ":" + minutes.substr(-2) + " PM";
+    }
+    if (hours >= 13) {
+      return hours - 12 + ":" + minutes.substr(-2) + " PM";
+    }
+
+    return hours + ":" + minutes.substr(-2) + " AM";
   };
 
   useEffect(() => {
@@ -72,7 +82,7 @@ const HourlyWeather = (props) => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "#0a273d",
+                backgroundColor: props.isDay ? "#0199e5" : "#0a273d",
                 borderColor: "yellow",
                 elevation: 2,
                 borderWidth: 1,
@@ -86,7 +96,9 @@ const HourlyWeather = (props) => {
                 style={{ width: 50, height: 50 }}
                 source={convertImages(item.weather[0].icon)}
               />
-              <Text style={styles.text}>⏳ {convertTime(item.dt)} PST</Text>
+              <Text style={styles.text}>
+                ⏳ {convertTime(item.dt + props.offset)}
+              </Text>
               <Text style={styles.text}>🌡 {Math.round(item.temp)}° F</Text>
               <Text style={styles.text}>✏️ {item.weather[0].description}</Text>
             </Pressable>
@@ -96,9 +108,9 @@ const HourlyWeather = (props) => {
       <View style={{ position: "absolute", flexDirection: "row", bottom: 0 }}>
         {props.hourly.map((data, i) =>
           i === index ? (
-            <Circle color={"#4da3f1"} key={i} />
-          ) : (
             <Circle color={"white"} key={i} />
+          ) : (
+            <Circle color={"darkgray"} key={i} />
           )
         )}
       </View>
