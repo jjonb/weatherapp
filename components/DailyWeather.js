@@ -46,11 +46,12 @@ const DailyWeather = (props) => {
       "Nov",
       "Dec",
     ];
-    var year = a.getFullYear();
+    var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = days[a.getDay()];
     var month = months[a.getMonth()];
     var date = a.getDate();
 
-    var time = month + " " + date + ", " + year;
+    var time = day + ", " + month + " " + date;
     return time;
   }
 
@@ -74,6 +75,7 @@ const DailyWeather = (props) => {
                 props.navigation.navigate("Weather", {
                   weather: item,
                   dailyWeather: true,
+                  offset: props.offset,
                 });
               }}
               style={{

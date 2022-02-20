@@ -11,16 +11,21 @@ import convertImages from "../functions/convertImages";
 import getBackground from "../functions/getBackground";
 
 const Weather = ({ navigation, route }) => {
-  const [background, setBackground] = useState(null);
-
-  const getIcon = (itemId) => {
-    return `http://openweathermap.org/img/wn/${itemId}@2x.png`;
-  };
   const convertTime = (dt) => {
     var date = new Date(dt * 1000);
     var hours = date.getHours();
     var minutes = "0" + date.getMinutes();
-    return hours + ":" + minutes.substr(-2);
+    if (hours === 0) {
+      return 12 + ":" + minutes.substr(-2) + " AM";
+    }
+    if (hours === 12) {
+      return hours + ":" + minutes.substr(-2) + " PM";
+    }
+    if (hours >= 13) {
+      return hours - 12 + ":" + minutes.substr(-2) + " PM";
+    }
+
+    return hours + ":" + minutes.substr(-2) + " AM";
   };
   function convertTime2(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
@@ -56,6 +61,7 @@ const Weather = ({ navigation, route }) => {
   //   );
   // }, []);
   const weather = route.params.weather;
+  const offset = route.params.offset;
   //console.log(weather);
   return (
     <View style={{ flex: 1 }}>
@@ -81,7 +87,7 @@ const Weather = ({ navigation, route }) => {
               },
             ]}
           >
-            {convertTime2(weather.dt)}
+            {convertTime2(weather.dt + offset)}
           </Text>
         ) : (
           <Text
@@ -94,7 +100,7 @@ const Weather = ({ navigation, route }) => {
               },
             ]}
           >
-            {convertTime(weather.dt)} PST
+            {convertTime(weather.dt + offset)}
           </Text>
         )}
 

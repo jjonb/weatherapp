@@ -22,16 +22,19 @@ const CurrentWeather = (props) => {
     return hours + ":" + minutes.substr(-2) + " AM";
   };
 
-  console.log(props.offsetCurrent);
-  console.log(props.offsetOrigin);
-  console.log(props.offset);
+  // console.log(props.offsetCurrent);
+  // console.log(props.offsetOrigin);
+  // console.log(props.offset);
   return (
     <Pressable
       style={{
         alignItems: "center",
       }}
       onPress={() =>
-        props.navigation.navigate("Weather", { weather: props.current })
+        props.navigation.navigate("Weather", {
+          weather: props.current,
+          offset: props.offset,
+        })
       }
     >
       <View

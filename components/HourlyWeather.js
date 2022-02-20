@@ -77,6 +77,7 @@ const HourlyWeather = (props) => {
               onPress={() =>
                 props.navigation.navigate("Weather", {
                   weather: item,
+                  offset: props.offset,
                 })
               }
               style={{
