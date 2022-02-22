@@ -8,6 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
+import { Ionicons } from "@expo/vector-icons";
 
 import CurrentWeather from "../components/CurrentWeather";
 import DailyWeather from "../components/DailyWeather";
@@ -27,6 +28,7 @@ const Home = (props) => {
   const [offsetOrigin, setOffsetOrigin] = useState(null);
   const [offsetCurrent, setOffsetCurrent] = useState(null);
   const [offset, setOffset] = useState(null);
+  const [dt, setDt] = useState(null);
 
   const [errorMsg, setErrorMsg] = useState(null);
   const signOut = () => {
@@ -70,7 +72,7 @@ const Home = (props) => {
         setOffsetOrigin(json.timezone_offset);
       }
       setOffsetCurrent(json.timezone_offset);
-
+      setDt(json.current.dt);
       setCity(
         json2[0].name +
           ", " +
@@ -122,16 +124,16 @@ const Home = (props) => {
       console.error(error);
     }
   };
+
+  const refresh = () => {
+    setLoading(true);
+    getWeather();
+  };
   return (
     <View style={styles.container}>
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        // <View
-        //   style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        // >
-        //   <Text>Loading</Text>
-        // </View>
         <View style={{ flex: 1 }}>
           <ImageBackground
             source={getBackground(current.weather[0].icon)}
@@ -158,6 +160,14 @@ const Home = (props) => {
             >
               {city}
             </Text>
+            <TouchableOpacity
+              style={{ marginTop: 20 }}
+              onPress={() => refresh()}
+            >
+              <Text>
+                <Ionicons name="refresh-circle" size={24} color="blue" />
+              </Text>
+            </TouchableOpacity>
             <CurrentWeather
               offsetOrigin={offsetOrigin}
               offsetCurrent={offsetCurrent}

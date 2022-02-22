@@ -1,27 +1,9 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import convertImages from "../functions/convertImages.js";
+import getDate from "../functions/getDate.js";
+import getTime from "../functions/getTime.js";
 const CurrentWeather = (props) => {
-  const getIcon = (itemId) => {
-    return `http://openweathermap.org/img/wn/${itemId}@2x.png`;
-  };
-  const convertTime = (dt) => {
-    var date = new Date(dt * 1000);
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    if (hours === 0) {
-      return 12 + ":" + minutes.substr(-2) + " AM";
-    }
-    if (hours === 12) {
-      return hours + ":" + minutes.substr(-2) + " PM";
-    }
-    if (hours >= 13) {
-      return hours - 12 + ":" + minutes.substr(-2) + " PM";
-    }
-
-    return hours + ":" + minutes.substr(-2) + " AM";
-  };
-
   // console.log(props.offsetCurrent);
   // console.log(props.offsetOrigin);
   // console.log(props.offset);
@@ -58,8 +40,6 @@ const CurrentWeather = (props) => {
             alignItems: "center",
             justifyContent: "center",
             width: 300,
-            // borderWidth: 2,
-            //borderColor: "blue",
             padding: 0,
             paddingBottom: 20,
             borderRadius: 150,
@@ -71,7 +51,10 @@ const CurrentWeather = (props) => {
             source={convertImages(props.current.weather[0].icon)}
           />
           <Text style={styles.text}>
-            ⏳ {convertTime(props.current.dt + props.offset)}
+            {getDate(props.current.dt + props.offset)}
+          </Text>
+          <Text style={styles.text}>
+            ⏳ {getTime(props.current.dt + props.offset)}
           </Text>
           <Text style={styles.text}>🌡 {Math.round(props.current.temp)}° F</Text>
           <Text style={styles.text}>
