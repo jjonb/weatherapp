@@ -148,14 +148,14 @@ const Home = (props) => {
                 fontWeight: "bold",
               }}
             >
-              Welcome, User!
+              {" "}
             </Text>
             <Text
               style={{
                 color: "yellow",
                 fontSize: 20,
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: -25,
               }}
             >
               {city}
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: 0,
     borderRadius: 10,
   },
 });
